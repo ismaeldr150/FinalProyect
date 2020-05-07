@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import javafx.scene.control.SplitPane;
+import javafx.scene.layout.BorderPane;
 
 /**
  * JavaFX App
@@ -20,7 +21,7 @@ public class App extends Application {
     
     public Scene scene;
     public Stage mainStage;
-    public SplitPane rootLayout;
+    public BorderPane rootLayout;
 
     public AppController controller;
 

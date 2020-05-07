@@ -1,18 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.effect.Reflection?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
 
-<SplitPane dividerPositions="0.32160804020100503" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<SplitPane dividerPositions="0.18341708542713567" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
   <items>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="51.0" prefWidth="598.0">
          <children>
-            <Button layoutX="24.0" layoutY="50.0" mnemonicParsing="false" text="Button" />
-            <Button layoutX="146.0" layoutY="45.0" mnemonicParsing="false" text="Button" />
-            <Button layoutX="282.0" layoutY="50.0" mnemonicParsing="false" text="Button" />
-            <Button layoutX="456.0" layoutY="50.0" mnemonicParsing="false" text="Button" />
+            <HBox layoutX="20.0" layoutY="14.0" AnchorPane.bottomAnchor="31.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="393.0" AnchorPane.topAnchor="14.0">
+               <children>
+                  <Button mnemonicParsing="false" text="CREATE" textFill="#1cb914">
+                     <effect>
+                        <Reflection />
+                     </effect>
+                     <font>
+                        <Font name="System Bold Italic" size="12.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" text="EDITE" textFill="#135694">
+                     <effect>
+                        <Reflection />
+                     </effect>
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" text="LIST" textFill="#c62485">
+                     <effect>
+                        <Reflection />
+                     </effect>
+                  </Button>
+               </children>
+            </HBox>
+            <Button layoutX="529.0" layoutY="14.0" mnemonicParsing="false" text="ABOUT" AnchorPane.bottomAnchor="31.0" AnchorPane.leftAnchor="523.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="14.0" />
          </children></AnchorPane>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="329.0" prefWidth="598.0" />
   </items>
 </SplitPane>

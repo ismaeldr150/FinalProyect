@@ -97,6 +97,11 @@ public class AppController extends Controllers implements IAppController{
     private MenuItem con;
     
     @FXML
+    public void AboutPage(){
+        changeScene(Scenes.ABOUT);
+    }
+    
+    @FXML
     public void closeApp(){
         System.exit(0);
     }

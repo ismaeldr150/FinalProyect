@@ -15,6 +15,7 @@ public class Connection {
     private StringProperty name;
     private String type;
     private String server;
+    private String database;
     private String userName;
     private String password;
 
@@ -25,6 +26,16 @@ public class Connection {
         this.userName = "";
         this.password = "";
     }
+
+    public Connection(String server, String database, String userName, String password) {
+        this.server = server;
+        this.database = database;
+        this.userName = userName;
+        this.password = password;
+        
+    }
+    
+    
 
     public Connection() {
         this("");
@@ -57,6 +68,16 @@ public class Connection {
     public void setServer(String server) {
         this.server = server;
     }
+
+    public String getDatabase() {
+        return database;
+    }
+
+    public void setDatabase(String database) {
+        this.database = database;
+    }
+    
+    
 
     public String getUserName() {
         return userName;

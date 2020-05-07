@@ -5,10 +5,19 @@
  */
 package com.illoismael.finalproyect.controller;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.fxml.Initializable;
+
 /**
  *
  * @author srism
  */
-public class AboutController {
+public class AboutController extends Controllers implements Initializable{
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        
+    }
     
 }
