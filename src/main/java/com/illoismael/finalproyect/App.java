@@ -28,11 +28,17 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         
-        MapEntry<Parent, Controllers> m = AppController.loadFXML(Scenes.ROOT.getUrl());
+        MapEntry<Parent, Controllers> m=AppController.loadFXML(Scenes.ROOT.getUrl());
         
-        scene = new Scene(loadFXML("primary"), 640, 480);
+        mainStage=stage;
+        rootLayout=(BorderPane)m.getKey();
+        scene = new Scene(rootLayout, 640, 480);
         stage.setScene(scene);
-        stage.show();
+        
+        controller=(AppController)m.getValue();
+        controller.setMainApp(this);
+        controller.changeScene(Scenes.PRIMARY);
+        stage.show();   
     }
 
 

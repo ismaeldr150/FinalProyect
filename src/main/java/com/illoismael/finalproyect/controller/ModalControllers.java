@@ -2,7 +2,7 @@ package com.illoismael.finalproyect.controller;
 
 import javafx.stage.Stage;
 
-public abstract class ModalControllers {
+public abstract class ModalControllers extends Controllers{
     Controllers parentController;
     Stage stage;
     

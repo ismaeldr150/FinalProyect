@@ -2,6 +2,8 @@ package com.illoismael.finalproyect.dao;
 
 import com.illoismael.finalproyect.model.Connection;
 import com.illoismael.finalproyect.model.Player;
+import com.illoismael.finalproyect.model.Team;
+import com.illoismael.finalproyect.model.Videogame;
 import com.illoismael.finalproyect.utils.ConnectionUtil;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -43,6 +45,22 @@ public class PlayerDAO extends Player implements DAO{
         }
     }
 */
+
+    public PlayerDAO() {
+    }
+
+    public PlayerDAO(int id, String name, int age, String phone, Videogame videogame, Team team, int idEmpleado) {
+        super(id, name, age, phone, videogame, team, idEmpleado);
+    }
+    
+    public PlayerDAO(int id, String name, int age, String phone, Videogame videogame, Team team) {
+        super(id, name, age, phone, videogame, team);
+    }
+    
+    
+    public PlayerDAO(Player p) {
+        this(p.getId(), p.getName(), p.getAge(), p.getPhone(), p.getVideogame(), p.getTeam());
+    }
     
      public static List<Player> selectAll(){
          return selectAll("");

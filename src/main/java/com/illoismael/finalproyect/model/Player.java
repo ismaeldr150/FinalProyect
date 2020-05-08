@@ -11,6 +11,10 @@ public class Player extends Person implements IPlayer{
     public Player(int id, String name, int age, String phone, Videogame videogame, Team team, int idEmpleado) {
         super(id, name, age, phone, videogame, team);
     }
+    
+    public Player(int id, String name, int age, String phone, Videogame videogame, Team team) {
+        super(id, name, age, phone, videogame, team);
+    }
 
     public int getIdEmpleado() {
         return idEmpleado;

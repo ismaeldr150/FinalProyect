@@ -3,7 +3,8 @@ package com.illoismael.finalproyect.controller;
 public enum Scenes {
     
     ROOT("view/root"), 
-    LIST("view/list"), 
+    LIST("view/list"),
+    PRIMARY("view/primary"),
     CREATE("view/create"),
     ABOUT("view/about"),
     EDIT("view/editConnection");
