@@ -1,5 +1,8 @@
 package com.illoismael.finalproyect;
 
+import com.illoismael.finalproyect.controller.AppController;
+import com.illoismael.finalproyect.controller.Controllers;
+import com.illoismael.finalproyect.controller.Scenes;
 import com.illoismael.finalproyect.dao.PlayerDAO;
 import com.illoismael.finalproyect.model.Coach;
 import com.illoismael.finalproyect.model.Player;
@@ -10,38 +13,47 @@ import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 
 
-public class PrimaryController implements Initializable{
+public class PrimaryController extends Controllers implements Initializable{
+    
+    AppController ap = new AppController();
+
+    //ELEMENTOS DE LA ESCENA <--
+    @FXML
+    private Button boton;
+    @FXML
+    private ComboBox<?> options;
+    @FXML
+    private Label title;
     
     //LISTAS OBSERVABLES DE OBJETOS//
-    public ObservableList<Player> players;
     public ObservableList<Coach> coachs;
     public ObservableList<Team> teams;
-    public ObservableList<Videogame> videogames
-            ;
+    public ObservableList<Videogame> videogames;
+    public ObservableList<Player> players;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         System.out.println("Cargando Controlador Primario");
+        onLoad();
+        
     }
 
+
     
-    
-    
-    @FXML
-    public void addPlayer() {
-        Player newP=new Player();
-        PlayerDAO newDao=new PlayerDAO(newP);
-        newDao.save();
-        newP.setId(newDao.getId());
-        players.add(newP);
-    }
-    
-    
-    void onLoad() {
+    @Override
+    public void onLoad() {
         this.app.controller.title("FINAL PROYECT - D.A.M");
         this.app.controller.enableCon();
+    }
+    
+    @FXML
+    public void goTo(){
+        ap.changeScene(Scenes.CREATE);
     }
     
     

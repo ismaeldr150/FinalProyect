@@ -2,7 +2,7 @@ package com.illoismael.finalproyect.model;
 
 public class Person implements IPerson{
     private int id;
-    private String name;
+    public String name;
     private int age;
     private String phone;
     private Videogame videogame;

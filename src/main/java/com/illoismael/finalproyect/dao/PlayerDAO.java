@@ -15,6 +15,8 @@ import java.util.logging.Logger;
 
 public class PlayerDAO extends Player implements DAO{
     
+    
+    
     public static String SELECT_ALL = "SELECT * FROM player";
     public static String INSERT = "INSERT INTO player (id,name,age,phone,videogame,team,idEmpleado) VALUES (NULL,?,?,?,?,?,NULL)";
     public static String GETBYID = "SELECT * FROM player WHERE idEmpleado=?";
@@ -24,6 +26,9 @@ public class PlayerDAO extends Player implements DAO{
     public static String REMOVE = "DELETE FROM player WHERE idEmpleado=?";
     
     public static String select2 = "WHERE name LIKE ?";
+    
+    java.sql.Connection con;
+    private boolean persist;
    
     /*
     enum queries {
@@ -113,22 +118,24 @@ public class PlayerDAO extends Player implements DAO{
 
     @Override
     public void persist() {
-        
+        this.persist = true;
     }
 
     @Override
     public void detach() {
-        
+        this.persist = false;
     }
 
     @Override
     public void remove() {
+        
         
     }
 
     @Override
     public void save() {
         
+
     }
     
 }

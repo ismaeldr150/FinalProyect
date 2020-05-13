@@ -3,6 +3,11 @@ package com.illoismael.finalproyect.model;
 public class Coach extends Person implements ICoach{
     private int idEmpleado;
 
+    public Coach() {
+    }
+
+    
+    
     public Coach(int id, String name, int age, String phone, Videogame videogame, Team team, int idEmpleado) {
         super(id, name, age, phone, videogame, team);
     }
