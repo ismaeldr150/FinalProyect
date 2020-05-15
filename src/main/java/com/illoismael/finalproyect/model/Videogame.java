@@ -9,6 +9,10 @@ public class Videogame implements IVideogame{
     private VideogameType type;
 
     public Videogame() {
+        this.codVideogame = -1;
+        this.name = "";
+        this.desciption = "";
+        this.type = null;
     }
 
     public Videogame(int codVideogame, String name, String desciption, VideogameType type) {

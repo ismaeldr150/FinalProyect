@@ -1,32 +1,74 @@
 package com.illoismael.finalproyect.model;
 
-public class Player extends Person implements IPlayer{
+public class Player implements IPlayer{
     
-    private int idEmpleado;
-
+    private int id;
+    private String name;
+    private int age;
+    private int salary;
+    
+    //Constructor por defecto
     public Player() {
+        this.id=-1;
+        this.name="";
+        this.age=-1;
+        this.salary=-1;
+    }
+
+    //Constructor FULL
+    public Player(int id, String name, int age, int salary) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.salary = salary;
+    }
+
+    public Player(String name, int age, int salary) {
+        this.name = name;
+        this.age = age;
+        this.salary = salary;
     }
  
+    
+    
 
-    public Player(int id, String name, int age, String phone, Videogame videogame, Team team, int idEmpleado) {
-        super(id, name, age, phone, videogame, team);
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public int getSalary() {
+        return salary;
+    }
+
+    public void setSalary(int salary) {
+        this.salary = salary;
     }
     
-    public Player(int id, String name, int age, String phone, Videogame videogame, Team team) {
-        super(id, name, age, phone, videogame, team);
-    }
-
-    public int getIdEmpleado() {
-        return idEmpleado;
-    }
-
-    public void setIdEmpleado(int idEmpleado) {
-        this.idEmpleado = idEmpleado;
-    }
+    
 
     @Override
     public String toString() {
-        return "Player{" + "idEmpleado=" + idEmpleado + '}';
+        return "Player{" + "ido=" + id + '}';
     }
 
     @Override
@@ -47,7 +89,7 @@ public class Player extends Person implements IPlayer{
             return false;
         }
         final Player other = (Player) obj;
-        if (this.idEmpleado != other.idEmpleado) {
+        if (this.id != other.id) {
             return false;
         }
         return true;

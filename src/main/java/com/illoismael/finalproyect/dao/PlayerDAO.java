@@ -13,17 +13,17 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class PlayerDAO extends Player implements DAO{
+public class PlayerDAO extends Player implements IDAO{
     
     
     
-    public static String SELECT_ALL = "SELECT * FROM player";
-    public static String INSERT = "INSERT INTO player (id,name,age,phone,videogame,team,idEmpleado) VALUES (NULL,?,?,?,?,?,NULL)";
-    public static String GETBYID = "SELECT * FROM player WHERE idEmpleado=?";
-    public static String FINDBYID = "SELECT * FROM player WHERE idEmpleado IN";
-    public static String FINDBYNAME = "SELECT * FROM player WHERE name LIKE ?";
-    public static String UPDATE = "UPDATE player SET name = ?, age = ?, phone = ?, videogame = ?, team ? = WHERE idEmpleado = ?";
-    public static String REMOVE = "DELETE FROM player WHERE idEmpleado=?";
+    public static String SELECT_ALL = "SELECT * FROM person";
+    public static String INSERT = "INSERT INTO person (id,name,age,phone,videogame,team) VALUES (NULL,?,?,?,?,?,NULL)";
+    public static String GETBYID = "SELECT * FROM person WHERE idEmpleado=?";
+    public static String FINDBYID = "SELECT * FROM person WHERE id IN";
+    public static String FINDBYNAME = "SELECT * FROM person WHERE name LIKE ?";
+    public static String UPDATE = "UPDATE person SET name = ?, age = ?, phone = ?, videogame = ?, team ? = WHERE id = ?";
+    public static String REMOVE = "DELETE FROM person WHERE id=?";
     
     public static String select2 = "WHERE name LIKE ?";
     
@@ -53,19 +53,17 @@ public class PlayerDAO extends Player implements DAO{
 
     public PlayerDAO() {
     }
-
-    public PlayerDAO(int id, String name, int age, String phone, Videogame videogame, Team team, int idEmpleado) {
-        super(id, name, age, phone, videogame, team, idEmpleado);
-    }
-    
-    public PlayerDAO(int id, String name, int age, String phone, Videogame videogame, Team team) {
-        super(id, name, age, phone, videogame, team);
-    }
-    
-    
     public PlayerDAO(Player p) {
-        this(p.getId(), p.getName(), p.getAge(), p.getPhone(), p.getVideogame(), p.getTeam());
     }
+    
+
+    public PlayerDAO(int id, String name, int age, int salary) {
+        super(id, name, age, salary);
+    }
+
+    
+    
+    
     
      public static List<Player> selectAll(){
          return selectAll("");
@@ -97,10 +95,7 @@ public class PlayerDAO extends Player implements DAO{
                 p.setId(rs.getInt("id"));
                 p.setName(rs.getString("name"));
                 p.setAge(rs.getInt("age"));
-                p.setPhone(rs.getString("phone"));
-              //  p.setVideogame(rs.getString("videogame"));
-              //  p.setTeam(rs.getString("team"));
-              result.add(p);
+                result.add(p);
             }
         }
             

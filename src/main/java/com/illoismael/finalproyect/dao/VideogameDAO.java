@@ -3,7 +3,7 @@ package com.illoismael.finalproyect.dao;
 import com.illoismael.finalproyect.enums.VideogameType;
 import com.illoismael.finalproyect.model.Videogame;
 
-public class VideogameDAO extends Videogame implements DAO {
+public class VideogameDAO extends Videogame implements IDAO {
 
     public static String SELECT_ALL = "SELECT * FROM videogame";
     public static String INSERT = "INSERT INTO videogame (codVideogame,name,description,type) VALUES (NULL,?,?,?)";

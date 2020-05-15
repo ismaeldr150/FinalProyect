@@ -1,7 +1,7 @@
 
 package com.illoismael.finalproyect.dao;
 
-public interface DAO {
+public interface IDAO {
     
     public default String test(){
         return "hola";

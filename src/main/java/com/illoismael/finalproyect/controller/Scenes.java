@@ -5,15 +5,13 @@ public enum Scenes {
     ROOT("root"), 
     PRIMARY("primary"),
     ABOUT("about"),
-    CREATE("create"),
     L_VIDEOGAMES("LVideogames"),
     L_TEAM("LTeam"),
     L_PLAYER("LPlayer"),
-    L_COACH("LCoach"),
     C_VIDEOAGAME("CVideogame"),
     C_TEAM("CTeam"),
     C_PLAYER("Player"),
-    C_COACH("CCoach");
+    GENERAL_LIST("GeneralList");
 
     private String url;
  

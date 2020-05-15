@@ -1,24 +1,24 @@
 package com.illoismael.finalproyect.model;
 
-public class Team implements ITeam{
+public class Team implements ITeam {
+
     private int codTeam;
-    private Player[] players;
     private String name;
-    private Videogame videogame;
-    private int codVideogame;
-    private int idEmpleado;
 
     public Team() {
+        this.codTeam = -1;
+        this.name = "";
     }
 
-    public Team(int codTeam, Player[] players, String name, Videogame videogame, int codVideogame, int idEmpleado) {
+    public Team(int codTeam, String name) {
         this.codTeam = codTeam;
-        this.players = players;
         this.name = name;
-        this.videogame = videogame;
-        this.codVideogame = codVideogame;
-        this.idEmpleado = idEmpleado;
+
     }
+    public Team(String name){
+        this.name="";
+    }
+    
 
     public int getCodTeam() {
         return codTeam;
@@ -26,14 +26,6 @@ public class Team implements ITeam{
 
     public void setCodTeam(int codTeam) {
         this.codTeam = codTeam;
-    }
-
-    public Player[] getPlayers() {
-        return players;
-    }
-
-    public void setPlayers(Player[] players) {
-        this.players = players;
     }
 
     public String getName() {
@@ -44,59 +36,33 @@ public class Team implements ITeam{
         this.name = name;
     }
 
-    public Videogame getVideogame() {
-        return videogame;
-    }
-
-    public void setVideogame(Videogame videogame) {
-        this.videogame = videogame;
-    }
-
-    public int getCodVideogame() {
-        return codVideogame;
-    }
-
-    public void setCodVideogame(int codVideogame) {
-        this.codVideogame = codVideogame;
-    }
-
-    public int getIdEmpleado() {
-        return idEmpleado;
-    }
-
-    public void setIdEmpleado(int idEmpleado) {
-        this.idEmpleado = idEmpleado;
-    }
-
     @Override
     public String toString() {
-        return "Team{" + "codTeam=" + codTeam + ", players=" + players + ", name=" + name + ", videogame=" + videogame + ", codVideogame=" + codVideogame + ", idEmpleado=" + idEmpleado + '}';
+        return "Team{" + "codTeam=" + codTeam + ", name=" + name + '}';
     }
 
     @Override
     public int hashCode() {
-        int hash = 3;
+        int hash = 7;
         return hash;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
         }
-        if (o == null) {
+        if (obj == null) {
             return false;
         }
-        if (getClass() != o.getClass()) {
+        if (getClass() != obj.getClass()) {
             return false;
         }
-        final Team other = (Team) o;
+        final Team other = (Team) obj;
         if (this.codTeam != other.codTeam) {
             return false;
         }
         return true;
     }
-    
-    
-    
+
 }

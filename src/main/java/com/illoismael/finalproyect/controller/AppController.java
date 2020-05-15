@@ -1,10 +1,13 @@
 package com.illoismael.finalproyect.controller;
 
 import com.illoismael.finalproyect.App;
+import com.illoismael.finalproyect.PrimaryController;
 import com.illoismael.finalproyect.model.Connection;
 import com.illoismael.finalproyect.utils.MapEntry;
 import com.illoismael.finalproyect.utils.PreferencesUtil;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -101,26 +104,30 @@ public class AppController extends Controllers implements IAppController {
 
     @FXML
     private Button con;
+    
+    @FXML
+    private Button list;
 
     //Boton de la pagina de about (diseño)
     @FXML
+    
     @Override
-    public void AboutPage() {
-        changeScene(Scenes.ABOUT);
-    }
+public void AboutPage() {
+    changeScene(Scenes.ABOUT);
+}
 
     //Boton de crear y editar
     @FXML
     public void CreateEdit() {
-        changeScene(Scenes.CREATE);
+        changeScene(Scenes.PRIMARY);
     }
 
     //Boton de listar (lista de jugadores)
     @FXML
     public void List() {
-        changeScene(Scenes.L_PLAYER);
+        changeScene(Scenes.GENERAL_LIST);
     }
-
+ 
     @FXML
     @Override
     public void closeApp() {
@@ -146,7 +153,7 @@ public class AppController extends Controllers implements IAppController {
     @FXML
     @Override
     public void title(String txt) {
-        this.app.mainStage.setTitle(txt + " ( " + (this.currentConnection == null ? "Desconectado" : this.currentConnection.getName()) + " )");
+        this.app.mainStage.setTitle(txt + " ( " + (this.currentConnection == null ? "Ismael" : this.currentConnection.getName()) + " )");
     }
 
 }

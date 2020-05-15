@@ -12,6 +12,9 @@ public class Dialog {
     public static void showConfirm(String title, String header,String description){
         showDialog(Alert.AlertType.CONFIRMATION, title, header, description);
     }
+    public static void showInformation(String title, String header, String description){
+        showDialog(Alert.AlertType.INFORMATION, title, header, description);
+    }
     public static void showDialog(Alert.AlertType type, String title, String header,String description){
         Alert alert =new Alert(type);
         alert.setTitle(title);

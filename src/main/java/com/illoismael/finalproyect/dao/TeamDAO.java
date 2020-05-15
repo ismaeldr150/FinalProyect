@@ -4,7 +4,7 @@ import com.illoismael.finalproyect.model.Player;
 import com.illoismael.finalproyect.model.Team;
 import com.illoismael.finalproyect.model.Videogame;
 
-public class TeamDAO extends Team implements DAO{
+public class TeamDAO extends Team implements IDAO{
     
     private boolean persist;
 
@@ -12,9 +12,11 @@ public class TeamDAO extends Team implements DAO{
         super();
     }
 
-    public TeamDAO(int codTeam, Player[] players, String name, Videogame videogame, int codVideogame, int idEmpleado) {
-        super(codTeam, players, name, videogame, codVideogame, idEmpleado);
+    public TeamDAO(int codTeam, String name) {
+        super(codTeam, name);
     }
+
+    
     
     
 
@@ -30,12 +32,12 @@ public class TeamDAO extends Team implements DAO{
 
     @Override
     public void remove() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     @Override
     public void save() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
     
 }

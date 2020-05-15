@@ -3,10 +3,9 @@ package com.illoismael.finalproyect.enums;
 
 public enum ComboBoxPrimary {
     
-    PLAYER("Player"),
-    COACH("Coach"),
-    TEAM("Team"),
-    VIDEOGAME("Videogame");
+    PLAYER("PLAYER"),
+    TEAM("TEAM"),
+    VIDEOGAME("VIDEOGAME");
     
     private String url;
     
