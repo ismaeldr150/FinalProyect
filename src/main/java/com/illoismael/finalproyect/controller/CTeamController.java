@@ -18,7 +18,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-public class CTeamController implements Initializable{
+public class CTeamController extends Controllers implements Initializable{
     
      //ELEMENTOS DE LA ESCENA <--
     @FXML

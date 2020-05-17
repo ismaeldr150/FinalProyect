@@ -22,7 +22,7 @@ import javafx.scene.control.TableView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class LVideogameController implements Initializable{
+public class LVideogameController extends Controllers implements Initializable{
     
      //ELEMENTOS DE LA ESCENA <--
     @FXML

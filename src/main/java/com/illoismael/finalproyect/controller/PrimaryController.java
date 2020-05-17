@@ -18,6 +18,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -29,10 +30,17 @@ public class PrimaryController extends Controllers implements Initializable{
     //ELEMENTOS DE LA ESCENA <--
     @FXML
     private Button btn;
+    
     @FXML
     private ComboBox<String> options;
+    
     @FXML
     private Label title;
+    
+    @FXML
+    private TextField Tname;
+    @FXML
+    private TextField Tdescription;
 
     
     
@@ -56,7 +64,7 @@ public class PrimaryController extends Controllers implements Initializable{
     
     @FXML
     public void prueba() {
-        
+        ap.changeScene(Scenes.C_VIDEOAGAME);
     }
     
     

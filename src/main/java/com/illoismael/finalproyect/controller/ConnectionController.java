@@ -5,10 +5,19 @@
  */
 package com.illoismael.finalproyect.controller;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.fxml.Initializable;
+
 /**
  *
  * @author srism
  */
-public class ConnectionController {
+public class ConnectionController extends Controllers implements Initializable{
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

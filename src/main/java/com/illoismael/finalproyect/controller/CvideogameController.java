@@ -2,6 +2,7 @@
 package com.illoismael.finalproyect.controller;
 
 import com.illoismael.finalproyect.dao.VideogameDAO;
+import com.illoismael.finalproyect.enums.VideogameType;
 import com.illoismael.finalproyect.model.Team;
 import com.illoismael.finalproyect.model.Videogame;
 import com.illoismael.finalproyect.utils.Dialog;
@@ -20,7 +21,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-public class CvideogameController implements Initializable{
+public class CvideogameController extends Controllers implements Initializable{
     
      //ELEMENTOS DE LA ESCENA <--
     @FXML
@@ -38,7 +39,7 @@ public class CvideogameController implements Initializable{
     @FXML
     private TextField tdescription;
     @FXML
-    private ComboBox types;
+    private ComboBox<String> options;
     @FXML
     private Button btnCancel;
     @FXML
@@ -50,8 +51,16 @@ public class CvideogameController implements Initializable{
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+        cb();
     }
+    
+    
+    public void cb(){
+        for (VideogameType cbp : VideogameType.values()) {
+            options.getItems().addAll(cbp.getCombo());
+        }
+    }
+    
     
     public void iniAttributte(ObservableList<Videogame> videogames){
         this.videogames = videogames;
