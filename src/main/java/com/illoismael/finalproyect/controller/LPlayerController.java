@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -40,14 +41,15 @@ public class LPlayerController extends Controllers implements Initializable{
     @FXML
     private TableColumn salary;
     @FXML
-    private Button cancel;
+    private Button btnCancel;
     @FXML
-    private Button btNew;
+    private Button btnNew;
     @FXML
     private Label title;
 
     
     private ObservableList<Player> players;
+    private Player player;
 
 
     @Override
@@ -85,6 +87,13 @@ public class LPlayerController extends Controllers implements Initializable{
         } catch (IOException ex) {
             Logger.getLogger(PrimaryController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    @FXML
+    public void cancel(ActionEvent event){
+        this.player = null;
+        Stage stage = (Stage) this.btnNew.getScene().getWindow();
+        stage.close();
     }
     
    

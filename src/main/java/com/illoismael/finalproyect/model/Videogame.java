@@ -6,7 +6,8 @@ public class Videogame implements IVideogame{
     private int codVideogame;
     private String name;
     private String desciption;
-    private VideogameType type;
+    //private VideogameType type;
+    private String type;
 
     public Videogame() {
         this.codVideogame = -1;
@@ -15,12 +16,20 @@ public class Videogame implements IVideogame{
         this.type = null;
     }
 
-    public Videogame(int codVideogame, String name, String desciption, VideogameType type) {
+    public Videogame(int codVideogame, String name, String desciption, String type) {
         this.codVideogame = codVideogame;
         this.name = name;
         this.desciption = desciption;
         this.type = type;
     }
+
+    public Videogame(String name, String desciption, String type) {
+        this.name = name;
+        this.desciption = desciption;
+        this.type = type;
+    }
+    
+    
 
     public int getCodVideogame() {
         return codVideogame;
@@ -46,11 +55,11 @@ public class Videogame implements IVideogame{
         this.desciption = desciption;
     }
 
-    public VideogameType getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(VideogameType type) {
+    public void setType(String type) {
         this.type = type;
     }
 

@@ -4,9 +4,11 @@ package com.illoismael.finalproyect.controller;
 import com.illoismael.finalproyect.dao.VideogameDAO;
 import com.illoismael.finalproyect.model.Team;
 import com.illoismael.finalproyect.model.Videogame;
+import com.illoismael.finalproyect.utils.Dialog;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -16,6 +18,7 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 
 public class CvideogameController implements Initializable{
     
@@ -37,21 +40,65 @@ public class CvideogameController implements Initializable{
     @FXML
     private ComboBox types;
     @FXML
-    private Button cancel;
+    private Button btnCancel;
     @FXML
-    private Button create;
+    private Button btnCreate;
     
-    
-    private TableView<Videogame> videogameTable;
     public ObservableList<Videogame> videogames;
+    
+    private Videogame videogame;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+    }
+    
+    public void iniAttributte(ObservableList<Videogame> videogames){
+        this.videogames = videogames;
+    }
+    
+    /**
+     * Método para darle funcionalidad al botón "Create" de la pantalla CVideogame.fxml
+     * @param event 
+     */
+    @FXML
+    public void create(ActionEvent event){
+        String name = this.name.getText();
+        String description = this.description.getText();
+        String type = this.type.getText();
+        
+        Videogame v = new Videogame(name, description, type);
+        
+        if(!videogames.contains(v)){
+            this.videogames = (ObservableList<Videogame>) v;
+            Dialog.showInformation("Información", null, "Se ha añadido correctamente");
+            
+            Stage stage = (Stage) this.btnCreate.getScene().getWindow();
+            stage.close();
+        } else {
+            Dialog.showError("ERROR", null, "La persona ya existe");
+        }
+    }
+    
+    @FXML
+    public void cancel(ActionEvent event){
+        this.videogame = null;
+        Stage stage = (Stage) this.btnCreate.getScene().getWindow();
+        stage.close();
+    }
+    
+    public Videogame getVideogame(){
+        return videogame;
     }
     
     
     
+    
+    
+    
+    
+    
+    /*
     @FXML
     public void addVideogame() {
         Videogame newV=new Videogame();
@@ -61,8 +108,7 @@ public class CvideogameController implements Initializable{
         videogames.add(newV);
         
     }
-    
-    
+
     @FXML
     public void removeVideogame() {
         Videogame selected = videogameTable.getSelectionModel().getSelectedItem();
@@ -72,5 +118,6 @@ public class CvideogameController implements Initializable{
             cc.remove();
         }
     }
+    */
     
 }

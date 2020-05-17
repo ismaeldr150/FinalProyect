@@ -22,7 +22,7 @@ public class VideogameDAO extends Videogame implements IDAO {
         super();
     }
 
-    public VideogameDAO(int codVideogame, String name, String desciption, VideogameType type) {
+    public VideogameDAO(int codVideogame, String name, String desciption, String type) {
         super(codVideogame, name, desciption, type);
     }
 
