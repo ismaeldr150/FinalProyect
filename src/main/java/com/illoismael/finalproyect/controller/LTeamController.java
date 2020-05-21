@@ -1,12 +1,16 @@
 package com.illoismael.finalproyect.controller;
 
+import static com.illoismael.finalproyect.controller.AppController.loadFXML;
+import com.illoismael.finalproyect.dao.TeamDAO;
 import com.illoismael.finalproyect.model.Team;
+import com.illoismael.finalproyect.utils.MapEntry;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -36,8 +40,11 @@ public class LTeamController extends Controllers implements Initializable{
     private Button btnCancel;
     @FXML
     private Button btnNewTeam;
+    @FXML
+    private Button btnDelete;
     
     private ObservableList<Team> teams;
+    private Team team;
     
 
     @Override
@@ -49,32 +56,49 @@ public class LTeamController extends Controllers implements Initializable{
      * Método que sirve para abrir una ventana modal (CTeam) 
      * para rellenar los datos del equipo
      */
-    public void newTeam() {
-         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("CTeam"));
-            
-            Parent root = loader.load();
-            
-            CTeamController con = loader.getController();
-            con.iniAttributte(teams);
-            
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setScene(scene);
-            stage.showAndWait();
-            
-            Team t = con.getTeam();
-            if(t != null){
-                this.teams.add(t);
+    public void newTeam() throws IOException {
+        
+       Stage stage = new Stage();
+       MapEntry<Parent, Controllers> m = loadFXML(Scenes.C_TEAM.getUrl());
+       Parent modal = m.getKey();
+
+       Scene modalScene = new Scene(modal);
+       
+       stage.setTitle("Create player...");
+       stage.initModality(Modality.WINDOW_MODAL);
+       stage.initOwner(this.app.mainStage);
+       stage.setScene(modalScene);
+       stage.showAndWait();
+
+       //ARREGLAR PARA QUE ACTUALICE LA TABLA
+       CTeamController controlador = null;
+       controlador.iniAttributte(teams);
+       if(team != null){
+                this.teams.add(team);
                 this.tblTeams.refresh();
                 
             }
-            
-            
-        } catch (IOException ex) {
-            Logger.getLogger(PrimaryController.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    
+    @FXML
+    public void deleteTeam() {
+        Team selected = tblTeams.getSelectionModel().getSelectedItem();
+        if (selected != null) {
+            teams.remove(selected);
+            TeamDAO cc = new TeamDAO(selected);
+            cc.remove();
         }
+    }
+        
+        
+    
+    
+    @FXML
+    public void cancel(ActionEvent event){
+        this.team = null;
+        Stage stage = (Stage) this.btnNewTeam.getScene().getWindow();
+        stage.close();
     }
     
 }
+

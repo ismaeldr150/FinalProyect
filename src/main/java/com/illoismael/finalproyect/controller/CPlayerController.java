@@ -50,8 +50,7 @@ public class CPlayerController extends Controllers implements Initializable{
     private Button btnCreate;
     
     private Player player;
-    
-    private TableView<Player> playerTable;
+
     public ObservableList<Player> players;
 
     @Override

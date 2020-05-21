@@ -2,8 +2,8 @@ package com.illoismael.finalproyect.model;
 
 public class Team implements ITeam {
 
-    private int codTeam;
-    private String name;
+    protected int codTeam;
+    protected String name;
 
     public Team() {
         this.codTeam = -1;

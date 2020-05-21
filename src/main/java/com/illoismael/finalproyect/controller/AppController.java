@@ -104,17 +104,17 @@ public class AppController extends Controllers implements IAppController {
 
     @FXML
     private Button con;
-    
+
     @FXML
     private Button list;
 
     //Boton de la pagina de about (diseño)
     @FXML
-    
+
     @Override
-public void AboutPage() {
-    changeScene(Scenes.ABOUT);
-}
+    public void AboutPage() {
+        changeScene(Scenes.ABOUT);
+    }
 
     //Boton de crear y editar
     @FXML
@@ -127,7 +127,7 @@ public void AboutPage() {
     public void List() {
         changeScene(Scenes.GENERAL_LIST);
     }
- 
+
     @FXML
     @Override
     public void closeApp() {

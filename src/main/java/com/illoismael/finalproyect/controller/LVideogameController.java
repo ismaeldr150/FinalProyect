@@ -1,7 +1,12 @@
 
 package com.illoismael.finalproyect.controller;
 
+import static com.illoismael.finalproyect.controller.AppController.loadFXML;
+import com.illoismael.finalproyect.dao.PlayerDAO;
+import com.illoismael.finalproyect.dao.VideogameDAO;
+import com.illoismael.finalproyect.model.Player;
 import com.illoismael.finalproyect.model.Videogame;
+import com.illoismael.finalproyect.utils.MapEntry;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -41,13 +46,15 @@ public class LVideogameController extends Controllers implements Initializable{
     private Button btnNew;
     @FXML
     private Button btnCancel;
+    @FXML
+    private Button btnDelete;
     
     private ObservableList<Videogame> videogames;
     private Videogame videogame;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
     
     
@@ -55,33 +62,38 @@ public class LVideogameController extends Controllers implements Initializable{
      * Método que sirve para abrir una ventana modal (CVideogame) 
      * para rellenar los datos del videojuego
      */
-    public void newVideogame() {
-         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("CVideogame"));
-            
-            Parent root = loader.load();
-            
-            CvideogameController controlador = loader.getController();
-            controlador.iniAttributte(videogames);
-            
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setScene(scene);
-            stage.showAndWait();
-            
-            Videogame v = controlador.getVideogame();
-            if(v != null){
-                this.videogames.add(v);
+    public void newVideogame() throws IOException {
+       Stage stage = new Stage();
+       MapEntry<Parent, Controllers> m = loadFXML(Scenes.C_VIDEOAGAME.getUrl());
+       Parent modal = m.getKey();
+
+       Scene modalScene = new Scene(modal);
+       
+       stage.setTitle("Create player...");
+       stage.initModality(Modality.WINDOW_MODAL);
+       stage.initOwner(this.app.mainStage);
+       stage.setScene(modalScene);
+       stage.showAndWait();
+
+       //ARREGLAR PARA QUE ACTUALICE LA TABLA
+       CvideogameController controlador = null;
+       controlador.iniAttributte(videogames);
+       if(videogame != null){
+                this.videogames.add(videogame);
                 this.tblVideogames.refresh();
                 
             }
-            
-            
-        } catch (IOException ex) {
-            Logger.getLogger(PrimaryController.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    @FXML
+    public void removeVideogame() {
+        Videogame selected = tblVideogames.getSelectionModel().getSelectedItem();
+        if (selected != null) {
+            videogames.remove(selected);
+            VideogameDAO cc = new VideogameDAO(selected);
+            cc.remove();
         }
     }
+    
     
     @FXML
     public void cancel(ActionEvent event){

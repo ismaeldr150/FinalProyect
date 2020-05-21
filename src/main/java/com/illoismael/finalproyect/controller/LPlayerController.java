@@ -2,7 +2,10 @@
 package com.illoismael.finalproyect.controller;
 
 import com.illoismael.finalproyect.PrimaryController;
+import static com.illoismael.finalproyect.controller.AppController.loadFXML;
+import com.illoismael.finalproyect.dao.PlayerDAO;
 import com.illoismael.finalproyect.model.Player;
+import com.illoismael.finalproyect.utils.MapEntry;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -13,6 +16,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -45,6 +49,8 @@ public class LPlayerController extends Controllers implements Initializable{
     @FXML
     private Button btnNew;
     @FXML
+    private Button btnDelete;
+    @FXML
     private Label title;
 
     
@@ -61,8 +67,43 @@ public class LPlayerController extends Controllers implements Initializable{
      * Método que sirve para abrir una ventana modal (CPlayer) 
      * para rellenar los datos del jugador
      */
-    public void newPlayer() {
+    public void newPlayer(ActionEvent event) throws IOException {
+        
+       Stage stage = new Stage();
+       MapEntry<Parent, Controllers> m = loadFXML(Scenes.C_PLAYER.getUrl());
+       Parent modal = m.getKey();
+
+       Scene modalScene = new Scene(modal);
+       
+       stage.setTitle("Create player...");
+       stage.initModality(Modality.WINDOW_MODAL);
+       stage.initOwner(this.app.mainStage);
+       stage.setScene(modalScene);
+       stage.showAndWait();
+
+       //ARREGLAR PARA QUE ACTUALICE LA TABLA
+       CPlayerController controlador = null;
+       controlador.iniAttributte(players);
+       if(player != null){
+                this.players.add(player);
+                this.tblPlayers.refresh();
+                
+            }
+    }
+    
+    @FXML
+    public void removePlayer() {
+        Player selected = tblPlayers.getSelectionModel().getSelectedItem();
+        if (selected != null) {
+            players.remove(selected);
+            PlayerDAO cc = new PlayerDAO(selected);
+            cc.remove();
+        }
+    }
+        
+        /*
          try {
+            
             FXMLLoader loader = new FXMLLoader(getClass().getResource("CPlayer"));
             
             Parent root = loader.load();
@@ -87,7 +128,8 @@ public class LPlayerController extends Controllers implements Initializable{
         } catch (IOException ex) {
             Logger.getLogger(PrimaryController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
+         */
+    
     
     @FXML
     public void cancel(ActionEvent event){

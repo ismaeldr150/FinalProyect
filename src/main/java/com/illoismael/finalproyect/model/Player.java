@@ -2,10 +2,10 @@ package com.illoismael.finalproyect.model;
 
 public class Player implements IPlayer{
     
-    private int id;
-    private String name;
-    private int age;
-    private int salary;
+    protected int id;
+    protected String name;
+    protected int age;
+    protected int salary;
     
     //Constructor por defecto
     public Player() {

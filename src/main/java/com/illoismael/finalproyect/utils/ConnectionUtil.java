@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -108,6 +109,42 @@ public class ConnectionUtil {
         result = ps.executeQuery();
 
         return result;
+    }
+    
+    public static ResultSet execQuery(java.sql.Connection con, String q, Object param) throws SQLException {
+        List<Object> params = new ArrayList<>();
+        params.add(param);
+        return execQuery(con, q, params);
+    }
+    
+    
+    public static int execUpdate(java.sql.Connection con, String q, List<Object> params, boolean insert) throws SQLException {
+        if (con == null) {
+            return -1;
+        }
+        
+
+        PreparedStatement ps = prepareQuery(con, q, params);
+        int result = ps.executeUpdate();
+        
+        if (insert) {
+            try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    return generatedKeys.getInt(1);  
+                } else {
+                    return -1;
+                }
+            }
+        } else {
+            return result;
+        }
+
+    }
+    
+    public static int execUpdate(java.sql.Connection con, String q, Object param, boolean insert) throws SQLException {
+        List<Object> params = new ArrayList<>();
+        params.add(param);
+        return execUpdate(con, q, params, insert);
     }
     
 }

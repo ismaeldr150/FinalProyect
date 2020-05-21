@@ -3,29 +3,29 @@ package com.illoismael.finalproyect.model;
 import com.illoismael.finalproyect.enums.VideogameType;
 
 public class Videogame implements IVideogame{
-    private int codVideogame;
-    private String name;
-    private String desciption;
+    protected int codVideogame;
+    protected String name;
+    protected String description;
     //private VideogameType type;
-    private String type;
+    protected String type;
 
     public Videogame() {
         this.codVideogame = -1;
         this.name = "";
-        this.desciption = "";
+        this.description = "";
         this.type = null;
     }
 
     public Videogame(int codVideogame, String name, String desciption, String type) {
         this.codVideogame = codVideogame;
         this.name = name;
-        this.desciption = desciption;
+        this.description = desciption;
         this.type = type;
     }
 
     public Videogame(String name, String desciption, String type) {
         this.name = name;
-        this.desciption = desciption;
+        this.description = desciption;
         this.type = type;
     }
     
@@ -47,12 +47,12 @@ public class Videogame implements IVideogame{
         this.name = name;
     }
 
-    public String getDesciption() {
-        return desciption;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDesciption(String desciption) {
-        this.desciption = desciption;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getType() {
@@ -65,7 +65,7 @@ public class Videogame implements IVideogame{
 
     @Override
     public String toString() {
-        return "Videogame{" + "codVideogame=" + codVideogame + ", name=" + name + ", desciption=" + desciption + ", type=" + type + '}';
+        return "Videogame{" + "codVideogame=" + codVideogame + ", name=" + name + ", desciption=" + description + ", type=" + type + '}';
     }
 
     @Override

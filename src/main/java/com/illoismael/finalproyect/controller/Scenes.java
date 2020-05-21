@@ -5,13 +5,19 @@ public enum Scenes {
     ROOT("root"), 
     PRIMARY("primary"),
     ABOUT("about"),
+    
     L_VIDEOGAMES("LVideogames"),
     L_TEAM("LTeam"),
     L_PLAYER("LPlayer"),
+    
+    C_PLAYER("CPlayer"),
     C_VIDEOAGAME("CVideogame"),
     C_TEAM("CTeam"),
-    C_PLAYER("Player"),
-    GENERAL_LIST("GeneralList");
+    
+    GENERAL_LIST("GeneralList"),
+    PLAYERS_LIST("PlayersList"),
+    TEAMS_LIST("TeamsList"),
+    VIDEOGAMES_LIST("VideogamesList");
 
     private String url;
  
