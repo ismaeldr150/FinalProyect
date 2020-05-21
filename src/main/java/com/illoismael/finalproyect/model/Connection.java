@@ -1,8 +1,14 @@
 package com.illoismael.finalproyect.model;
 
+import java.io.File;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 
 /**
  *
@@ -93,6 +99,30 @@ public class Connection {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+    
+    public void loadDataXML() {
+        String file = "conf.xml";
+        File f = new File(file);
+        if (f.canRead()) {
+            JAXBContext context;
+            try {
+                context = JAXBContext.newInstance(Connection.class);
+                Unmarshaller um = context.createUnmarshaller();
+                Connection miconexion = (Connection) um.unmarshal(f);
+                this.server = miconexion.server;
+                this.database = miconexion.database;
+                this.userName = miconexion.userName;
+                this.password = miconexion.password;
+
+            } catch (JAXBException ex) {
+                Logger.getLogger(Connection.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+    } else {
+            System.out.println("Archivo no válido");
+        }
+
     }
 
     @Override
