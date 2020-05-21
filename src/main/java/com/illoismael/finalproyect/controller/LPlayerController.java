@@ -4,10 +4,13 @@ package com.illoismael.finalproyect.controller;
 import com.illoismael.finalproyect.PrimaryController;
 import static com.illoismael.finalproyect.controller.AppController.loadFXML;
 import com.illoismael.finalproyect.dao.PlayerDAO;
+import com.illoismael.finalproyect.model.Connection;
 import com.illoismael.finalproyect.model.Player;
+import com.illoismael.finalproyect.utils.ConnectionUtil;
 import com.illoismael.finalproyect.utils.MapEntry;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -56,11 +59,18 @@ public class LPlayerController extends Controllers implements Initializable{
     
     private ObservableList<Player> players;
     private Player player;
-
+    Connection con;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+        try{
+            con = (Connection) ConnectionUtil.connect(AppController.currentConnection);
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(LPlayerController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(LPlayerController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
