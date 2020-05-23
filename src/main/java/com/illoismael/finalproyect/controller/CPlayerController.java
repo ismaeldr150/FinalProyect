@@ -60,10 +60,6 @@ public class CPlayerController extends Controllers implements Initializable{
         
     }
     
-    public void iniAttributte(ObservableList<Player> players){
-        this.players = players;
-    }
-    
     public void setStage(Stage myStage) {
         this.myStage = myStage;
     }
@@ -126,39 +122,6 @@ public class CPlayerController extends Controllers implements Initializable{
     public Player getPlayer(){
         return player;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    /*
-    @FXML
-    public void addPlayer() {
-        Player newP=new Player();
-        PlayerDAO newDao=new PlayerDAO(newP);
-        newDao.save();
-        newP.setId(newDao.getId());
-        players.add(newP);
-        
-    }
-    
-    
-    @FXML
-    public void removePlayer() {
-        Player selected = playerTable.getSelectionModel().getSelectedItem();
-        if (selected != null) {
-            players.remove(selected);
-            PlayerDAO cc = new PlayerDAO(selected);
-            cc.remove();
-        }
-    }
-    
-    */
+
     
 }

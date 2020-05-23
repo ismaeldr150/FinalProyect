@@ -75,32 +75,6 @@ public class AppController extends Controllers implements IAppController {
         }
     }
 
-    @Override
-    public Controllers openModal(Scenes scene, String title, Controllers parentController, Object params) {
-        try {
-            MapEntry<Parent, Controllers> m = loadFXML(scene.getUrl());
-            Stage modalStage = new Stage();
-            modalStage.setTitle(title);
-            modalStage.initModality(Modality.APPLICATION_MODAL);
-            modalStage.initOwner(this.app.mainStage);
-
-            Scene modalScene = new Scene(m.getKey());
-            modalStage.setScene(modalScene);
-
-            if (m.getValue() != null) {
-                m.getValue().setMainApp(this.app);
-                ModalControllers mc = (ModalControllers) m.getValue();
-                mc.setParentController(parentController);
-                mc.setStage(modalStage);
-                mc.setParams(params);
-            }
-            modalStage.showAndWait();
-            return m.getValue();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-    }
 
     @FXML
     private Button con;
@@ -154,6 +128,11 @@ public class AppController extends Controllers implements IAppController {
     @Override
     public void title(String txt) {
         this.app.mainStage.setTitle(txt + " ( " + (this.currentConnection == null ? "Ismael" : this.currentConnection.getName()) + " )");
+    }
+
+    @Override
+    public Controllers openModal(Scenes scene, String title, Controllers parentController, Object params) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
