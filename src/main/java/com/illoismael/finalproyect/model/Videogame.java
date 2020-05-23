@@ -28,7 +28,7 @@ public class Videogame implements IVideogame{
         this.description = desciption;
         this.type = type;
     }
-    
+
     
 
     public int getCodVideogame() {

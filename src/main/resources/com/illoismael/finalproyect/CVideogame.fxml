@@ -52,10 +52,7 @@
                            <cursor>
                               <Cursor fx:constant="TEXT" />
                            </cursor></TextField>
-                        <ComboBox fx:id="options" prefWidth="150.0" style="-fx-background-color: -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, white; -fx-background-radius: 3px, 3px, 2px, 1px; -fx-background-insets: 0 0 -1 0, 0, 1, 2;" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor></ComboBox>
+                        <ComboBox fx:id="options" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                      </children>
                   </GridPane>
                </children>

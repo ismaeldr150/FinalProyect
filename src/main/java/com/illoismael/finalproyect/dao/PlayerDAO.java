@@ -29,12 +29,16 @@ public class PlayerDAO extends Player implements IDAO {
     java.sql.Connection con;
     private boolean persist;
 
-    
+    @Override
+    public int remove() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     enum queries {
         INSERT("INSERT INTO player (id,name,age,salary) VALUES (NULL,?,?,?)"),
         ALL("SELECT * FROM player"),
         GETBYID("SELECT * FROM player WHERE id=?"),
-        FINDBYID("SELECT * FROM player WHERE id IN "), 
+        FINDBYID("SELECT * FROM player WHERE id IN "),
         FINDBYNAME("SELECT * FROM player WHERE name LIKE ?"),
         UPDATE("UPDATE player SET name = ?, age = ?, salary = ? = WHERE id = ?"),
         REMOVE("DELETE FROM player WHERE id=?");
@@ -48,7 +52,7 @@ public class PlayerDAO extends Player implements IDAO {
             return this.q;
         }
     }
-     
+
     public PlayerDAO() {
     }
 
@@ -58,7 +62,7 @@ public class PlayerDAO extends Player implements IDAO {
     public PlayerDAO(int id, String name, int age, int salary) {
         super(id, name, age, salary);
     }
-    
+
     public PlayerDAO(int i) {
         this();
         List<Object> params = new ArrayList<>();
@@ -78,13 +82,12 @@ public class PlayerDAO extends Player implements IDAO {
 
             }
         } catch (SQLException ex) {
-            Dialog.showError("ERRPR", "Error cargando el contacto", ex.toString());
+            Dialog.showError("FAILED", "Fail loading player", ex.toString());
         }
     }
-    
-    
+
     public static Player instanceBuilder(ResultSet rs) {
-       
+
         Player p = new Player();
         if (rs != null) {
             try {
@@ -92,27 +95,37 @@ public class PlayerDAO extends Player implements IDAO {
                 p.setName(rs.getString("name"));
                 p.setAge(rs.getInt("age"));
                 p.setSalary(rs.getInt("salary"));
-                
+
             } catch (SQLException ex) {
-                Dialog.showError("Error SQL", "SQL creando contacto", ex.toString());
+                Dialog.showError("FAILED IN SQL", "SQL creating player", ex.toString());
             }
 
         }
         return p;
     }
-    
-   
 
+    /**
+     * Si le pasamos una cadena vacía no tenemos criterio de busqueda,
+     * selecciona todos
+     *
+     * @return
+     */
     public static List<Player> selectAll() {
         return selectAll("");
     }
 
+    /**
+     * En caso de tener una cadena, busqueda correspondiente
+     *
+     * @param patter le pasamos un String (cadena)
+     * @return
+     */
     public static List<Player> selectAll(String patter) {
         List<Player> result = new ArrayList<>();
-        Connection c = new Connection("localhost", "idr", "root", ""); //  <-- Cambiar por XML (a fuego no)
+        
 
         try {
-            java.sql.Connection conn = ConnectionUtil.connect(c);
+            java.sql.Connection conn = ConnectionUtil.getConnection();
             String query = SELECT_ALL;
 
             if (patter.length() > 0) {
@@ -133,28 +146,27 @@ public class PlayerDAO extends Player implements IDAO {
                     p.setId(rs.getInt("id"));
                     p.setName(rs.getString("name"));
                     p.setAge(rs.getInt("age"));
+                    p.setSalary(rs.getInt("salary"));
                     result.add(p);
                 }
             }
 
-        } catch (ClassNotFoundException ex) {
-            System.out.println(ex);
-            Logger.getLogger(PlayerDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             System.out.println(ex);
             Logger.getLogger(PlayerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
-    
+
     /**
      * Devuelve los jugadores seleccionados por nombre
+     *
      * @param con le pasamos una conexión
      * @param name le pasamos el nombre
      * @return lista de players
      */
     public static List<Player> selectByName(java.sql.Connection con, String name) {
-        
+
         List<Player> result = new ArrayList<>();
         try {
             ResultSet rs = ConnectionUtil.execQuery(con, queries.FINDBYNAME.getQ(), name + "%");
@@ -165,10 +177,10 @@ public class PlayerDAO extends Player implements IDAO {
                 }
             }
         } catch (SQLException ex) {
-            Dialog.showError("ERRPR", "Error cargando el contactos", ex.toString());
+            Dialog.showError("FAILED", "Fail loading the players", ex.toString());
         }
         return result;
-        
+
         /*
         List<Player> result = new ArrayList<>();
         try {
@@ -183,11 +195,12 @@ public class PlayerDAO extends Player implements IDAO {
             Dialog.showError("ERRPR", "Failed to load players", ex.toString());
         }
         return result;
-        */
+         */
     }
-    
+
     /**
      * Devuelve los jugadores seleccionados por id
+     *
      * @param con le pasamos una conexión
      * @param id le pasamos el nombre
      * @return lista de players
@@ -209,11 +222,11 @@ public class PlayerDAO extends Player implements IDAO {
                 }
             }
         } catch (SQLException ex) {
-            Dialog.showError("ERRPR", "Error cargando el contactos", ex.toString());
+            Dialog.showError("FAILED", "Fail loading the players", ex.toString());
         }
         return result;
     }
-    
+
     @Override
     public void persist() {
         this.persist = true;
@@ -224,48 +237,25 @@ public class PlayerDAO extends Player implements IDAO {
         this.persist = false;
     }
 
+    /*
     @Override
-    public void remove() {
+    public int remove() {
         if (this.id != -1) {
             try {
-                int rs = ConnectionUtil.execUpdate(con, queries.REMOVE.getQ(), this.id,false);
+                int rs = ConnectionUtil.execUpdate(con, queries.REMOVE.getQ(), this.id, false);
             } catch (SQLException ex) {
                 Dialog.showError("FAILED", "FAIL REMOVING PLAYER", ex.toString());
             }
         }
     }
+    */
 
     @Override
-    public void save() {
-        queries q = null;
-        List<Object> params = new ArrayList<>();
-        params.add(this.getName());
-        params.add(this.getAge());
-        params.add(this.getSalary());
+    public int save() {
 
-        if (this.id == -1) {
-            q = q.INSERT;
-        } else {
-            q = q.UPDATE;
-            params.add(this.id);
-        }
+        int result = -1;
 
-        try {
-            //Comienza transacción
-            con.setAutoCommit(false);
-
-            int rs = ConnectionUtil.execUpdate(con, q.getQ(), params, (q == q.INSERT ? true : false));
-            if (q == PlayerDAO.queries.INSERT) {
-                this.id = rs;
-            }
-            
-
-            //Fin de la transacción
-            con.commit();
-            con.setAutoCommit(true);
-        } catch (SQLException ex) {
-            Dialog.showError("ERROR", "Error guardando contacto", ex.toString());
-        }
+        return result;
     }
 
 }

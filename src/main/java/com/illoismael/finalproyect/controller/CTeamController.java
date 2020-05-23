@@ -43,14 +43,25 @@ public class CTeamController extends Controllers implements Initializable{
     public ObservableList<Team> teams;
     
     private Team team;
-
+    private LTeamController parent;
+    private Object params;
+    private Stage myStage;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
     }
     
-    public void iniAttributte(ObservableList<Team> players){
-        this.teams = players;
+    public void setStage(Stage myStage) {
+        this.myStage = myStage;
+    }
+
+    public void setParent(LTeamController p) {
+        this.parent = p;
+    }
+
+    public void setParams(Object p) {
+        params = p;
     }
     
     /**
@@ -59,18 +70,23 @@ public class CTeamController extends Controllers implements Initializable{
      */
     @FXML
     public void create(ActionEvent event){
-        String name = this.Tname.getText();
-        
-        Team t = new Team(name);
-        
-        if(!teams.contains(t)){
-            this.team = t;
-            Dialog.showInformation("Información", null, "Se ha añadido correctamente");
-            
-            Stage stage = (Stage) this.btnCreate.getScene().getWindow();
-            stage.close();
+        String Nname = this.Tname.getText();
+
+
+        if (Nname.trim().length() > 0) {
+
+            Team t = new TeamDAO(-1, Nname);
+            if (parent != null) {
+                parent.doOnCloseModal(t);
+            }
+
+            if (this.myStage != null) {
+                this.myStage.close();
+            }
         } else {
-            Dialog.showError("ERROR", null, "La persona ya existe");
+            if (parent != null) {
+                Dialog.showWarning("Validation error", "Fix errors", "Name cant be empty");
+            }
         }
     }
     
@@ -84,35 +100,6 @@ public class CTeamController extends Controllers implements Initializable{
     public Team getTeam(){
         return team;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    /*
-    @FXML
-    public void addTeam() {
-        Team newT=new Team();
-        TeamDAO newDao=new TeamDAO(newT);
-        newDao.save();
-        newT.setCodTeam(newDao.getCodTeam());
-        teams.add(newT);
-        
-    }
-    
-    
-    @FXML
-    public void removeTeam() {
-        Team selected = tblTeams.getSelectionModel().getSelectedItem();
-        if (selected != null) {
-            teams.remove(selected);
-            TeamDAO cc = new TeamDAO(selected);
-            cc.remove();
-        }
-    }
-    */
+
     
 }

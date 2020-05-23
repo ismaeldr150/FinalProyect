@@ -28,6 +28,12 @@ public class Player implements IPlayer{
         this.age = age;
         this.salary = salary;
     }
+
+    public Player(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+    
  
     
     

@@ -9,17 +9,20 @@ import javafx.beans.property.StringProperty;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 
-/**
- *
- * @author srism
- */
+
+//Con esto indicamos que esta clase va a ser mapeada con un archivo XML
+@XmlRootElement(name="CONNECTION")
+
+//Con esto indicamos que TODOS los atributos NO ESTÁTICOS van a ser mapeados
+@XmlAccessorType(XmlAccessType.FIELD)
+
 public class Connection {
 
-    public static ConnectionsType connectionTypes;
-
     private StringProperty name;
-    private String type;
     private String server;
     private String database;
     private String userName;
@@ -27,7 +30,6 @@ public class Connection {
 
     public Connection(String name) {
         this.name = new SimpleStringProperty(name);
-        this.type = ConnectionsType.MYSQL.getType();
         this.server = "";
         this.userName = "";
         this.password = "";
@@ -57,14 +59,6 @@ public class Connection {
 
     public void setName(String name) {
         this.name = new SimpleStringProperty(name);
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getServer() {
@@ -105,29 +99,35 @@ public class Connection {
         String file = "conf.xml";
         File f = new File(file);
         if (f.canRead()) {
+            //Creamos un contextto de JAXB
             JAXBContext context;
             try {
+                //Instanciamos el contexto usando Singleton. Recibe la clase que hace de Wrapper
                 context = JAXBContext.newInstance(Connection.class);
+                
+                //Con unmarsharller leemos. Pasar de XML a Objeto. (Falta el contrario, marshall)
                 Unmarshaller um = context.createUnmarshaller();
-                Connection miconexion = (Connection) um.unmarshal(f);
-                this.server = miconexion.server;
-                this.database = miconexion.database;
-                this.userName = miconexion.userName;
-                this.password = miconexion.password;
+                Connection myconexion = (Connection) um.unmarshal(f);
+                this.server = myconexion.server;
+                this.database = myconexion.database;
+                this.userName = myconexion.userName;
+                this.password = myconexion.password;
 
             } catch (JAXBException ex) {
                 Logger.getLogger(Connection.class.getName()).log(Level.SEVERE, null, ex);
 
         }
     } else {
-            System.out.println("Archivo no válido");
+            System.out.println("¡Invalid File!");
         }
+        
+        
 
     }
 
     @Override
     public String toString() {
-        return "Connection{" + "name=" + name + ", type=" + type + ", server=" + server + ", userName=" + userName + ", password=" + password + '}';
+        return "Connection{" + "name=" + name + ", server=" + server + ", userName=" + userName + ", password=" + password + '}';
     }
 
     @Override

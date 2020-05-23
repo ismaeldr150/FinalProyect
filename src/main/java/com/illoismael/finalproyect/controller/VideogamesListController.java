@@ -1,9 +1,7 @@
 package com.illoismael.finalproyect.controller;
 
-import com.illoismael.finalproyect.dao.PlayerDAO;
 import com.illoismael.finalproyect.dao.VideogameDAO;
 import com.illoismael.finalproyect.model.Connection;
-import com.illoismael.finalproyect.model.Player;
 import com.illoismael.finalproyect.model.Videogame;
 import java.net.URL;
 import java.util.List;
@@ -16,44 +14,43 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
-public class PlayersListController extends Controllers implements Initializable {
+public class VideogamesListController extends Controllers implements Initializable{
 
     Connection con;
-    private ObservableList<Player> data;
+    private ObservableList<Videogame> data;
     
     @FXML
-    private TableColumn<Player, String> nameColumn;
+    private TableColumn<Videogame, String> nameColumn;
     @FXML
-    private TableColumn<Player, String> ageColumn;
+    private TableColumn<Videogame, String> descriptionColumn;
     @FXML
-    private TableColumn<Player, String> salaryColumn;
+    private TableColumn<Videogame, String> typeColumn;
     
     @FXML
-    private TableView<Player> tblPlayers;
-
+    private TableView<Videogame> tblVideogames;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        this.data = FXCollections.observableArrayList();
-        List<Player> player = PlayerDAO.selectAll();
-        data.addAll(player);
+         this.data = FXCollections.observableArrayList();
+        List<Videogame> videogames = VideogameDAO.selectAll();
+        data.addAll(videogames);
 
         //Nomenclatura lambda
         nameColumn.setCellValueFactory(eachRowData -> {
             //Convertimos un String a ObservableString
             return new SimpleObjectProperty<>(eachRowData.getValue().getName());
         });
-        
-        //Error nomenclatura lambda con tipos INT
-        /*
-         ageColumn.setCellValueFactory(eachRowData -> {
-            return new SimpleObjectProperty<>(eachRowData.getValue().getAge());
+        descriptionColumn.setCellValueFactory(eachRowData -> {
+            return new SimpleObjectProperty<>(eachRowData.getValue().getDescription());
         });
-        salaryColumn.setCellValueFactory(eachRowData -> {
-            return new SimpleObjectProperty<>(eachRowData.getValue().getSalary());
+        typeColumn.setCellValueFactory(eachRowData -> {
+            return new SimpleObjectProperty<>(eachRowData.getValue().getType());
         });
-        */
         
-         tblPlayers.setItems(data);
+        
+         tblVideogames.setItems(data);
     }
-
+    
+        
+    
 }

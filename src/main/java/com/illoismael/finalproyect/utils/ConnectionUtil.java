@@ -1,4 +1,4 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -22,23 +22,23 @@ import java.util.logging.Logger;
  * @author srism
  */
 public class ConnectionUtil {
-    
-    private static java.sql.Connection  _conn = null;
-    
-    public static java.sql.Connection connect(Connection c) throws ClassNotFoundException, SQLException{
+
+    private static java.sql.Connection _conn = null;
+
+    public static java.sql.Connection connect(Connection c) throws ClassNotFoundException, SQLException {
         java.sql.Connection conn = null;
-        
-        if (c == null){
+
+        if (c == null) {
             return null;
         }
-        Class.forName("com.mysql.jdbc.Driver");
-        conn=DriverManager.getConnection("jdbc:mysql://" + c.getServer() + "/agenda?useLegacyDatetimeCode=false&serverTimezone=UTC", c.getUserName(), c.getPassword()); 
-        
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        conn = DriverManager.getConnection("jdbc:mysql://" + c.getServer() + "/idr?useLegacyDatetimeCode=false&serverTimezone=UTC", c.getUserName(), c.getPassword());
+
         return conn;
     }
-    
-    public static java.sql.Connection getConnection(){
-        if(_conn == null){
+
+    public static java.sql.Connection getConnection() {
+        if (_conn == null) {
             Connection c = new Connection();
             c.loadDataXML();
             try {
@@ -51,19 +51,18 @@ public class ConnectionUtil {
         }
         return _conn;
     }
-    
-    
+
     /**
-     * 
+     *
      * @param con le pasamos una conexion
      * @param q un String
      * @param params una lista de parámetros
      * @return devolvemos un PreparedStatement
-     * @throws SQLException 
+     * @throws SQLException
      */
     public static PreparedStatement prepareQuery(java.sql.Connection con, String q, List params) throws SQLException {
         PreparedStatement ps = null;
-        ps = con.prepareStatement(q, Statement.RETURN_GENERATED_KEYS); 
+        ps = con.prepareStatement(q, Statement.RETURN_GENERATED_KEYS);
         if (params != null) {
             int i = 1;
             for (Object o : params) {
@@ -93,31 +92,35 @@ public class ConnectionUtil {
         }
         return ps;
     }
-    
+
     public static int is(Integer n) {
         return 0;
     }
+
     public static int is(Float n) {
         return 1;
     }
+
     public static int is(Double n) {
         return 2;
     }
+
     public static int is(Boolean n) {
         return 3;
     }
+
     public static int is(String n) {
         return 4;
-    }   
-    public static int is(Array n){
+    }
+
+    public static int is(Array n) {
         return 5;
     }
+
     public static int is(Object n) {
         return 6;
     }
 
-    
-    
     public static ResultSet execQuery(java.sql.Connection con, String q, List<Object> params) throws SQLException {
         ResultSet result = null;
         if (con == null) {
@@ -129,27 +132,25 @@ public class ConnectionUtil {
 
         return result;
     }
-    
+
     public static ResultSet execQuery(java.sql.Connection con, String q, Object param) throws SQLException {
         List<Object> params = new ArrayList<>();
         params.add(param);
         return execQuery(con, q, params);
     }
-    
-    
+
     public static int execUpdate(java.sql.Connection con, String q, List<Object> params, boolean insert) throws SQLException {
         if (con == null) {
             return -1;
         }
-        
 
         PreparedStatement ps = prepareQuery(con, q, params);
         int result = ps.executeUpdate();
-        
+
         if (insert) {
             try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                    return generatedKeys.getInt(1);  
+                    return generatedKeys.getInt(1);
                 } else {
                     return -1;
                 }
@@ -159,11 +160,11 @@ public class ConnectionUtil {
         }
 
     }
-    
+
     public static int execUpdate(java.sql.Connection con, String q, Object param, boolean insert) throws SQLException {
         List<Object> params = new ArrayList<>();
         params.add(param);
         return execUpdate(con, q, params, insert);
     }
-    
+
 }

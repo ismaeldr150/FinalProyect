@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<CONNECTION>
+	<server>localhost</server>
+	<database>idr</database>
+	<userName>root</userName>
+	<password></password>
+</CONNECTION>

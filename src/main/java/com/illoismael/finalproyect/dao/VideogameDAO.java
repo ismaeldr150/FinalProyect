@@ -9,6 +9,7 @@ import com.illoismael.finalproyect.utils.Dialog;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -33,7 +34,7 @@ public class VideogameDAO extends Videogame implements IDAO {
         FINDBYCODE("SELECT * FROM videogame WHERE id IN "),
         FINDBYNAME("SELECT * FROM videogame WHERE name LIKE ?"),
         UPDATE("UPDATE videogame SET name = ?, description = ?, type= ? = WHERE codVideogame = ?"),
-        REMOVE("DELETE FROM videogame WHERE codVideogame*-+=?");
+        REMOVE("DELETE FROM videogame WHERE codVideogame=?");
         private String q;
 
         queries(String q) {
@@ -46,37 +47,35 @@ public class VideogameDAO extends Videogame implements IDAO {
     }
 
     java.sql.Connection con;
+    
+    //Variable que utilizamos para que cada vez que se haga un setter, salve
+    //automáticamente
     private boolean persist;
 
     public VideogameDAO(Videogame v) {
         super();
+        persist = false;
     }
 
     public VideogameDAO(int codVideogame, String name, String desciption, String type) {
         super(codVideogame, name, desciption, type);
+        persist = false;
+    }
+
+    //Objetos que creemos que no están en la BBDD tiene código -1 por defecto
+    public VideogameDAO(String name, String description, String type) {
+        super(-1, name, description, type);
+        persist = false;
     }
 
     public VideogameDAO() {
+        persist = false;
     }
-
-    public static Videogame instanceBuilder(ResultSet rs) {
-
-        Videogame t = new Videogame();
-        if (rs != null) {
-            try {
-                t.setCodVideogame(rs.getInt("codVideogame"));
-                t.setName(rs.getString("name"));
-                t.setDescription(rs.getString("description"));
-                t.setType(rs.getString("type"));
-
-            } catch (SQLException ex) {
-                Dialog.showError("FAILED SQL", "SQL creating videogame", ex.toString());
-            }
-
-        }
-        return t;
-    }
-
+    
+    /**
+     * 
+     * @param i 
+     */
     public VideogameDAO(int i) {
         this();
         List<Object> params = new ArrayList<>();
@@ -99,27 +98,50 @@ public class VideogameDAO extends Videogame implements IDAO {
             Dialog.showError("FAILED", "Fail  loading the videogame", ex.toString());
         }
     }
+    
+ 
+
+    public static Videogame instanceBuilder(ResultSet rs) {
+
+        Videogame t = new Videogame();
+        if (rs != null) {
+            try {
+                t.setCodVideogame(rs.getInt("codVideogame"));
+                t.setName(rs.getString("name"));
+                t.setDescription(rs.getString("description"));
+                t.setType(rs.getString("type"));
+
+            } catch (SQLException ex) {
+                Dialog.showError("FAILED SQL", "SQL creating videogame", ex.toString());
+            }
+
+        }
+        return t;
+    }
+
+    
 
     public static List<Videogame> selectAll() {
         return selectAll("");
     }
 
-    public static List<Videogame> selectAll(String patter) {
+    public static List<Videogame> selectAll(String pattern) {
+
         List<Videogame> result = new ArrayList<>();
-        Connection c = new Connection("localhost", "idr", "root", ""); //  <-- Cambiar por XML (a fuego no)
+        
 
         try {
-            java.sql.Connection conn = ConnectionUtil.connect(c);
+            java.sql.Connection conn = ConnectionUtil.getConnection();
             String query = SELECT_ALL;
 
-            if (patter.length() > 0) {
+            if (pattern.length() > 0) {
                 query += select2;
             }
 
             PreparedStatement ps = conn.prepareStatement(query);
 
-            if (patter.length() > 0) {
-                ps.setString(1, patter + "%");
+            if (pattern.length() > 0) {
+                ps.setString(1, pattern + "%");
             }
 
             ResultSet rs = ps.executeQuery();
@@ -134,10 +156,6 @@ public class VideogameDAO extends Videogame implements IDAO {
                     result.add(v);
                 }
             }
-
-        } catch (ClassNotFoundException ex) {
-            System.out.println(ex);
-            Logger.getLogger(PlayerDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             System.out.println(ex);
             Logger.getLogger(PlayerDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -193,7 +211,7 @@ public class VideogameDAO extends Videogame implements IDAO {
                 }
             }
         } catch (SQLException ex) {
-            Dialog.showError("ERRPR", "Error cargando el contactos", ex.toString());
+            Dialog.showError("FAILED", "Fail loagin the videogame", ex.toString());
         }
         return result;
     }
@@ -205,49 +223,97 @@ public class VideogameDAO extends Videogame implements IDAO {
 
     @Override
     public void detach() {
-        this.persist = true;
+        this.persist = false;
     }
 
     @Override
-    public void remove() {
-        if (this.codVideogame != -1) {
+    public void setType(String type) {
+        super.setType(type);
+        if (persist) {
+            save();
+        }
+    }
+
+    @Override
+    public void setDescription(String description) {
+        super.setDescription(description);
+        if (persist) {
+            save();
+        }
+    }
+
+    @Override
+    public void setName(String name) {
+        super.setName(name);
+        if (persist) {
+            save();
+        }
+    }
+
+    @Override
+    public int remove() {
+        int result = -1;
+        
+        if(this.codVideogame > 0){
+            
             try {
-                int rs = ConnectionUtil.execUpdate(con, queries.REMOVE.getQ(), this.codVideogame,false);
+                java.sql.Connection conn = ConnectionUtil.getConnection();
+                
+                String q = REMOVE + this.codVideogame;
+                
+                PreparedStatement ps = conn.prepareStatement(q);
+                result = ps.executeUpdate();
+                this.codVideogame = -1;
+
             } catch (SQLException ex) {
-                Dialog.showError("FAILED", "FAIL REMOVING PLAYER", ex.toString());
+                Logger.getLogger(VideogameDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        
+        
+        return result;
     }
 
     @Override
-    public void save() {
-        queries q = null;
-        List<Object> params = new ArrayList<>();
-        params.add(this.getName());
-        params.add(this.getDescription());
-        params.add(this.getType());
-
-        if (this.codVideogame == -1) {
-            q = q.INSERT;
-        } else {
-            q = q.UPDATE;
-            params.add(this.codVideogame);
-        }
+    public int save() {
+        int result = -1;
+        
 
         try {
-            con.setAutoCommit(false);
+            java.sql.Connection conn = ConnectionUtil.getConnection();
 
-            int rs = ConnectionUtil.execUpdate(con, q.getQ(), params, (q == q.INSERT ? true : false));
-            if (q == VideogameDAO.queries.INSERT) {
-                this.codVideogame = rs;
+            if (this.codVideogame > 0) {
+
+                //UPDATE
+                String q = UPDATE;
+                PreparedStatement ps = conn.prepareStatement(q);
+                ps.setString(1, name);
+                ps.setString(1, description);
+                ps.setString(1, type);
+                result = ps.executeUpdate();
+            } else {
+
+                //INSERT
+                String q = INSERT;
+                PreparedStatement ps = conn.prepareStatement(q, Statement.RETURN_GENERATED_KEYS);
+                ps.setString(1, name);
+                ps.setString(2, description);
+                ps.setString(3, type);
+                result = ps.executeUpdate();
+
+                try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        result = generatedKeys.getInt(1);
+                    }
+                }
+                this.codVideogame = result;
             }
 
-            con.commit();
-            con.setAutoCommit(true);
         } catch (SQLException ex) {
-            Dialog.showError("FAILED", "Fail saving videogame", ex.toString());
-
+            Logger.getLogger(VideogameDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        return result;
     }
 
 }

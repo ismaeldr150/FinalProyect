@@ -18,7 +18,7 @@ import javafx.scene.layout.BorderPane;
 public class App extends Application {
     
     public Scene scene;
-    public Stage mainStage;
+    public static Stage mainStage;
     public BorderPane rootLayout;
 
     public AppController controller;

@@ -14,24 +14,28 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+public class TeamDAO extends Team implements IDAO {
 
-public class TeamDAO extends Team implements IDAO{
-    
     public static String SELECT_ALL = "SELECT * FROM team";
     public static String INSERT = "INSERT INTO player (codTeam,name) VALUES (NULL,?)"; // ¿Añadir codVideogame "es clave ajena"?
     public static String GETBYCODE = "SELECT * FROM team WHERE codTeam=?";
-    public static String FINDBYCODE= "SELECT * FROM team WHERE id IN";
+    public static String FINDBYCODE = "SELECT * FROM team WHERE id IN";
     public static String FINDBYNAME = "SELECT * FROM team WHERE name LIKE ?";
     public static String UPDATE = "UPDATE team SET name = ? = WHERE id = ?";
     public static String REMOVE = "DELETE FROM team WHERE id=?";
 
     public static String select2 = "WHERE name LIKE ?";
-    
+
+    @Override
+    public int remove() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     enum queries {
         INSERT("INSERT INTO team (codTeam,name) VALUES (NULL,)"),
         ALL("SELECT * FROM team"),
         GETBYCODE("SELECT * FROM team WHERE codTeam=?"),
-        FINDBYCODE("SELECT * FROM team WHERE codTeam IN "), 
+        FINDBYCODE("SELECT * FROM team WHERE codTeam IN "),
         FINDBYNAME("SELECT * FROM team WHERE name LIKE ?"),
         UPDATE("UPDATE team SET name = ? = WHERE id = ?"),
         REMOVE("DELETE FROM team WHERE id=?");
@@ -48,11 +52,11 @@ public class TeamDAO extends Team implements IDAO{
 
     java.sql.Connection con;
     private boolean persist;
- 
 
     public TeamDAO(Team t) {
         super();
     }
+
     public TeamDAO() {
     }
 
@@ -77,36 +81,36 @@ public class TeamDAO extends Team implements IDAO{
 
             }
         } catch (SQLException ex) {
-            Dialog.showError("ERRPR", "Error cargando el contacto", ex.toString());
+            Dialog.showError("FAILED", "Fail loading the team", ex.toString());
         }
     }
-    
+
     public static Team instanceBuilder(ResultSet rs) {
-       
+
         Team t = new Team();
         if (rs != null) {
             try {
                 t.setCodTeam(rs.getInt("codTeam"));
                 t.setName(rs.getString("name"));
-                
+
             } catch (SQLException ex) {
-                Dialog.showError("Error SQL", "SQL creando contacto", ex.toString());
+                Dialog.showError("FAIL IN SQL", "SQL creating team", ex.toString());
             }
 
         }
         return t;
     }
-    
+
     public static List<Team> selectAll() {
         return selectAll("");
     }
-    
+
     public static List<Team> selectAll(String patter) {
         List<Team> result = new ArrayList<>();
-        Connection c = new Connection("localhost", "idr", "root", ""); //  <-- Cambiar por XML (a fuego no)
+        
 
         try {
-            java.sql.Connection conn = ConnectionUtil.connect(c);
+            java.sql.Connection conn = ConnectionUtil.getConnection();
             String query = SELECT_ALL;
 
             if (patter.length() > 0) {
@@ -130,25 +134,22 @@ public class TeamDAO extends Team implements IDAO{
                 }
             }
 
-        } catch (ClassNotFoundException ex) {
-            System.out.println(ex);
-            Logger.getLogger(PlayerDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             System.out.println(ex);
             Logger.getLogger(PlayerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
-  
 
     /**
      * Devuelve los equipos seleccionados por nombre
+     *
      * @param con le pasamos una conexión
      * @param name le pasamos el nombre
      * @return lista de teams
      */
     public static List<Team> selectByName(java.sql.Connection con, String name) {
-        
+
         List<Team> result = new ArrayList<>();
         try {
             ResultSet rs = ConnectionUtil.execQuery(con, queries.FINDBYNAME.getQ(), name + "%");
@@ -159,14 +160,15 @@ public class TeamDAO extends Team implements IDAO{
                 }
             }
         } catch (SQLException ex) {
-            Dialog.showError("ERRPR", "Error cargando el contactos", ex.toString());
+            Dialog.showError("FAILED", "Fail loading team", ex.toString());
         }
         return result;
-        
+
     }
-    
+
     /**
      * Devuelve los equipos seleccionados por codigo
+     *
      * @param con le pasamos una conexión
      * @param id le pasamos el nombre
      * @return lista de equipos
@@ -188,7 +190,7 @@ public class TeamDAO extends Team implements IDAO{
                 }
             }
         } catch (SQLException ex) {
-            Dialog.showError("ERRPR", "Error cargando el contactos", ex.toString());
+            Dialog.showError("FAILED", "Fail loading team", ex.toString());
         }
         return result;
     }
@@ -203,43 +205,23 @@ public class TeamDAO extends Team implements IDAO{
         this.persist = false;
     }
 
+    /*
     @Override
-    public void remove() {
+    public int remove() {
         if (this.codTeam != -1) {
             try {
-                int rs = ConnectionUtil.execUpdate(con, queries.REMOVE.getQ(), this.codTeam,false);
+                int rs = ConnectionUtil.execUpdate(con, queries.REMOVE.getQ(), this.codTeam, false);
             } catch (SQLException ex) {
                 Dialog.showError("FAILED", "FAIL REMOVING TEAM", ex.toString());
             }
         }
     }
+    */
 
     @Override
-    public void save() {
-        queries q = null;
-        List<Object> params = new ArrayList<>();
-        params.add(this.getName());
-
-        if (this.codTeam == -1) {
-            q = q.INSERT;
-        } else {
-            q = q.UPDATE;
-            params.add(this.codTeam);
-        }
-
-        try {
-            con.setAutoCommit(false);
-
-            int rs = ConnectionUtil.execUpdate(con, q.getQ(), params, (q == q.INSERT ? true : false));
-            if (q == TeamDAO.queries.INSERT) {
-                this.codTeam = rs;
-            }
-
-            con.commit();
-            con.setAutoCommit(true);
-        } catch (SQLException ex) {
-            Dialog.showError("ERROR", "Error guardando contacto", ex.toString());
-        }
+    public int save() {
+        int result = -1;
+        
+        return result;
     }
-    
 }
